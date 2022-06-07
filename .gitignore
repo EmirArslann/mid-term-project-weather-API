@@ -5,7 +5,7 @@
 .tex 
 
 # Ignore files related to API keys
-.env 
+javascript/api.js
 
 # Ignore node_module  folder
 node_modules
