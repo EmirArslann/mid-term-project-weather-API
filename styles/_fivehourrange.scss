@@ -5,10 +5,30 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
+    
 }
 .daily {
     display: flex;
+    justify-content: space-evenly;
     margin: 1rem 1rem;
     border: 1px solid black;
-    padding: 10rem;
+    
+    &-box {
+        border: 1px solid black;
+        height: 15rem;
+        width: 15rem;
+        margin: .5rem;
+    }
+}
+.hour {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 1rem;
+    border: 1px solid black;
+    &-box {
+        border: 1px solid black;
+        height: 12rem;
+        width: 10rem;
+        margin: .5rem
+    }
 }
