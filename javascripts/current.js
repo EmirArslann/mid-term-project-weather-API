@@ -18,36 +18,41 @@ console.log(WEATHER_API_KEY);
       
       const nav = navigator.geolocation.getCurrentPosition(success, error)
       console.log("nav",nav);
-      
-      function getData(lat , long) {
-           return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${WEATHER_API_KEY}`)
+      let current = document.getElementById("current-weather")
+      function getData(lat, long) {
+           return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${WEATHER_API_KEY}&units=metric`)
             .then(response => response.json())
             .then(data => {
               console.log(data)
-              let currentHtml = data
-              this.infotxt = ""
-              for(let i = 0; i < currentHtml.length; i++){
-                const info = currentHtml[i]
-                
-                const infoHtml = `
-                <H1>Current Weather</H1>
-                <div class="current-weather">
-                    <div class="current-weather-header">
-                        <h2 id="name">${info.name}</h2>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <div class="weather-info">
-                        <img src="" alt="">
-            
-                    </div>
-                </div>
-                `;
-                
+              console.log(current)
+              const loadData=()=>{
+                return current.innerHTML = `
+                <div class="current-weather-header">
+                    <h1 id="name">${data.name}</h1>
+                    <i class="fa-solid fa-star"></i>
+                  </div>
+                  <div class="weather-info">
+                  <img id="icon" src="https://openweathermap.org/img/w/${data.weather[0].icon}.png"  alt="${data.weather[0].description}">
+                  <div class="city-info-box">    
+                      <div class="city-info">
+                        <p>Temparature : ${data.main.temp} <i class="fa-solid fa-temperature-half"></i></p>
+                        <p>Feels like: ${data.main.feels_like} <i class="fa-solid fa-temperature-half"></i> </p>
+                      </div>   
+                      <div class="city-info">
+                        <p>Temparature : ${data.main.temp}</p>
+                        <p>Feels like : ${data.main.feels_like}</p>
+                      </div>
+                      <div class="city-info">
+                        <p>Wind Degree : ${data.wind.deg} </p>
+                        <p>Wind Speed : ${data.wind.speed}
+                       </div>     
+                  </div>    
+                `
               }
+              loadData();              
             }) 
             .catch(error =>{
                 error
-
             })
         } 
 
