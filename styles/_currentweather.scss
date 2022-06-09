@@ -1,0 +1,20 @@
+.current-weather{
+    display: flex;
+    border: 2px solid black;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.current-weather-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.weather-info{
+    border: 2px solid black;
+    width: 50%;
+    margin-bottom: 10px;
+}
