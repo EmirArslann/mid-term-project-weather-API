@@ -24,9 +24,8 @@ fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=49.246292&lon=-123.1
         </div>
         `
     });
-    dates.forEach(element => {
-        
-    });
+
+    
 
     console.log(dates)
     console.log(data)
