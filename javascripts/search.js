@@ -1,75 +1,34 @@
-const makeFavCitiesManager = () => {
-  const FAVCITIES_KEY = "favcities";
+import * as favCitiesManager from "./favCitiesManager.js";
 
-  const getCities = () => {
-    return JSON.parse(localStorage.getItem(FAVCITIES_KEY));
-  };
-
-  const saveCities = (cities) => {
-    localStorage.setItem(FAVCITIES_KEY, JSON.stringify(cities));
-  };
-
-  const hasCity = (city) => {
-    return getCities().some((c) => c.name === city.name);
-  };
-
-  const addCity = (city) => {
-    saveCities([...getCities(), city]);
-  };
-
-  const removeCity = (city) => {
-    saveCities(getCities().filter((c) => c.name !== city.name));
-  };
-
-  const isEmpty = () => {
-    const cities = getCities();
-    return !cities || !cities.length;
-  };
-
-  return { getCities, saveCities, hasCity, addCity, removeCity, isEmpty };
+const domElements = {
+  searchEl: () => document.querySelector("#search"),
+  selectEl: () => document.querySelector("#favcities"),
+  resultEl: () => document.querySelector("#search-result"),
+  saveBtnEl: () => document.querySelector("#save-fav"),
 };
 
-const makeResultManager = (favCitiesManager, selectManager) => {
-  const resultEl = document.querySelector("#search-result");
-  const btnEl = document.querySelector("#save-fav");
-
-  const bindSaveFavEvent = (city) => {
-    btnEl.addEventListener("click", () => {
-      if (favCitiesManager.hasCity(city)) {
-        favCitiesManager.removeCity(city);
-      } else {
-        favCitiesManager.addCity(city);
-      }
-      selectManager.render();
-      render();
+function initAutoComplete() {
+  const autocomplete = new google.maps.places.Autocomplete(
+    domElements.searchEl(),
+    {
+      fields: ["address_components", "geometry", "icon", "name"],
+      types: ["(cities)"],
+    }
+  );
+  autocomplete.addListener("place_changed", () => {
+    const result = autocomplete.getPlace();
+    domElements.selectEl().value = "";
+    renderResult({
+      name: result.name,
+      lat: result.geometry.location.lat(),
+      lng: result.geometry.location.lng(),
     });
-  };
+  });
+}
 
-  const render = (city) => {
-    const alreadyFav = favCitiesManager.hasCity(city);
-    resultEl.innerHTML = `
-      <h3>${city.name}</h3>
-      <p>Lat: ${city.lat}</p>
-      <p>Lng: ${city.lng}</p>
-      <button type="button" id="save-fav">
-        ${alreadyFav ? "Remove Fav" : "Fav"}
-      </button>
-    `;
-    bindSaveFavEvent(city);
-  };
-
-  return { render };
-};
-
-const makeSelectManager = () => {
-  const selectEl = document.querySelector("#favcities");
-
-  const bindEvent = () => {
-    selectEl.addEventListener("change", (event) => {
-      const payloadObj = JSON.parse(decodeURI(event.target.value));
-      resultManager.render(payloadObj);
-    });
-  };
+function renderSelect(keepValue) {
+  const selectedEl = domElements.selectEl();
+  const { value } = selectedEl;
 
   const renderOption = (displayName, value = "") =>
     `<option value="${encodeURI(value)}">${displayName}</option>`;
@@ -77,57 +36,52 @@ const makeSelectManager = () => {
   const renderOptions = (html, fav) =>
     (html += renderOption(fav.name, JSON.stringify(fav)));
 
-  const render = () => {
-    if (favCitiesManager.isEmpty()) {
-      selectEl.innerHTML = renderOption("No fav city yet");
+  if (!favCitiesManager.getCities()) {
+    selectedEl.innerHTML = renderOption("No fav city yet");
+  } else {
+    const optionsHtml = favCitiesManager.getCities().reduce(renderOptions, "");
+    selectedEl.innerHTML = renderOption("Fav cities") + optionsHtml;
+  }
+
+  if (keepValue) {
+    selectedEl.value = value;
+  }
+}
+
+function bindSelectEvent() {
+  domElements.selectEl().addEventListener("change", (event) => {
+    domElements.searchEl().value = "";
+    renderResult(JSON.parse(decodeURI(event.target.value)));
+  });
+}
+
+function bindSaveFavEvent(city) {
+  domElements.saveBtnEl().addEventListener("click", () => {
+    if (favCitiesManager.hasCity(city)) {
+      favCitiesManager.removeCity(city);
     } else {
-      const optionsHtml = favCitiesManager
-        .getCities()
-        .reduce(renderOptions, "");
-      selectEl.innerHTML = renderOption("Fav cities") + optionsHtml;
+      favCitiesManager.addCity(city);
     }
-  };
+    renderSelect();
+    renderResult(city);
+  });
+}
 
-  return {
-    render,
-    bindEvent,
-  };
-};
-
-const makeSearchManager = () => {
-  const searchEl = document.querySelector("#search");
-  let autocomplete;
-
-  const bindEvent = () => {
-    autocomplete.addListener("place_changed", () => {
-      const result = autocomplete.getPlace();
-      resultManager.render({
-        name: result.name,
-        lat: result.geometry.location.lat(),
-        lng: result.geometry.location.lng(),
-      });
-    });
-  };
-
-  const init = () => {
-    autocomplete = new google.maps.places.Autocomplete(searchEl, {
-      fields: ["address_components", "geometry", "icon", "name"],
-      types: ["(cities)"],
-    });
-    bindEvent();
-  };
-
-  return { init };
-};
-
-const searchManager = makeSearchManager();
+function renderResult(city) {
+  const alreadyFav = favCitiesManager.hasCity(city);
+  domElements.resultEl().innerHTML = `
+    <h3>${city.name}</h3>
+    <p>Lat: ${city.lat}</p>
+    <p>Lng: ${city.lng}</p>
+    <button type="button" id="save-fav">
+      ${alreadyFav ? "Remove Fav" : "Fav"}
+    </button>
+  `;
+  bindSaveFavEvent(city);
+}
 
 window.addEventListener("load", () => {
-  const favCitiesManager = makeFavCitiesManager();
-  const selectManager = makeSelectManager();
-  const resultManager = makeResultManager(favCitiesManager, selectManager);
-
-  searchManager.init();
-  selectManager.render();
-  selectManager.bindEvent();
+  initAutoComplete();
+  bindSelectEvent();
+  renderSelect();
 });
