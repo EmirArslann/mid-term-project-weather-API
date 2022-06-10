@@ -1,13 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/index.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/index.css" />
     <title>Document</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <header class="navigator">
+      <div class="search-container">
+        <input
+          type="text"
+          name="search"
+          id="search"
+          placeholder="Search cities"
+        />
+      </div>
+      <div class="fav-container">
+        <select class="favcities" id="favcities">
+          <!-- options will be rendered here -->
+        </select>
+      </div>
+    </header>
+    <div id="search-result"></div>
+    <!-- Load script last -->
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkX2ajSi3cl7SP2YjeU0S-ZIu9TQxmM1Q&libraries=places"
+    ></script>
+    <script src="../javascripts/search.js" type="module"></script>
+  </body>
 </html>
