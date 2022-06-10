@@ -52,7 +52,45 @@ console.log(WEATHER_API_KEY);
                   </div>    
                 `
               }
-              loadData();              
+              loadData();
+              
+              setInterval(change_background, 1000 * 60 * 60);
+
+              function change_background() {
+                var d = new Date();
+                var n = d.getHours();
+                console.log(n);
+                if (n == 23 || n < 7) {
+                  document.body.className = "night";
+                }
+                if(data.weather[0].description === "broken clouds" && "scattered clouds" && "few clouds" && "overcast clouds"){
+                  document.body.className = "broken"
+                  
+                }
+                if(data.weather[0].description === "clear sky"){
+                  document.body.className = "clear-sky"
+
+                }if(data.weather[0].main === "rain"){
+                  document.body.className = "rain"
+                }
+                if(document.weather[0].description === "thunderstorm"){
+                  document.body.className = "thunder"
+                }
+                if(document.weather[0].description === "snow"){
+                  document.body.className = "snow"
+                }
+                if(document.weather[0].description === "mist"){
+                  document.body.className = "mist"
+                }
+                else {
+                  document.body.className = "day";
+                }
+                console.log("test");
+              }
+
+              change_background();
+  
+              
             }) 
             .catch(error =>{
                 error
@@ -60,20 +98,8 @@ console.log(WEATHER_API_KEY);
         } 
 
         
-        setInterval(change_background, 1000 * 60 * 60);
+        
 
-          function change_background() {
-            var d = new Date();
-            var n = d.getHours();
-            console.log(n);
-            if (n == 23 || n < 7) {
-              document.body.className = "night";
-            } else {
-              document.body.className = "day";
-            }
-            console.log("test");
-          }
-
-          change_background();
+          
 
       
