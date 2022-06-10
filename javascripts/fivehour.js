@@ -27,26 +27,26 @@ fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=49.246292&lon=-123.1
             avetemp += element.main.temp
         
         });
-          let showave = avetemp/8;
+        let showave = avetemp/element.length;
         let fdays = document.querySelector('.daily')
         fdays.innerHTML +=`
-        <div class="daily-box">
+        <div class="daily-box" name='${date}' >
         <h3>${date}</h3>
         <p>${showave}</p>
         </div>
         `
-      
+        // console.log(fdays);
         console.log(avetemp)
         console.log(showave)
       });
-
-     
-    // 3 Hours Range
-    let dates = data.list.filter(datetxt => {
-        return   datetxt.dt_txt.startsWith('2022-06-10')
-    })
-  let thour = document.querySelector('.hour')
-    dates.forEach(element => {
+      let hourrange = document.querySelectorAll('.daily-box')
+      hourrange.forEach(element => {
+        element.addEventListener('click',()=>{
+          const name = element.getAttribute('name');
+          fivedays[name]
+          let thour = document.querySelector('.hour')
+          thour.innerHTML = ''
+    fivedays[name].forEach(element => {
         var iconurl = "http://openweathermap.org/img/w/" + element.weather[0].icon + ".png";
         thour.innerHTML += `
         <div class="hour-box">
@@ -59,6 +59,29 @@ fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=49.246292&lon=-123.1
         </div>
         `
     });
+          console.log(fivedays[name]);
+
+        })
+      });
+     
+    // 3 Hours Range
+    // let dates = data.list.filter(datetxt => {
+    //     return   datetxt.dt_txt.startsWith('2022-06-11')
+    // })
+  // let thour = document.querySelector('.hour')
+  //   dates.forEach(element => {
+  //       var iconurl = "http://openweathermap.org/img/w/" + element.weather[0].icon + ".png";
+  //       thour.innerHTML += `
+  //       <div class="hour-box">
+  //       <h3>${element.dt_txt.split(' ').pop()}</h3>
+  //       <p>${element.main.feels_like}°C</p>
+  //       <p>H:${element.main.temp_max}</p>
+  //       <p>L:${element.main.temp_min}</p>
+  //       <p>${element.weather[0].description}</p>
+  //       <img src="${iconurl}" alt="">
+  //       </div>
+  //       `
+  //   });
    // Daily Ave Temp
     // let avetemp = 0;
     // let hourlength = dates.length
