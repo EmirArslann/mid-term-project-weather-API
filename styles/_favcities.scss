@@ -1,8 +1,22 @@
 .navigator {
   display: flex;
+  justify-content: end;
+  border-bottom: 1px solid $secondary-color;
+  padding: 1rem;
 }
 
-.fav-container,
 .search-container {
   width: 50%;
+  display: flex;
+  justify-content: center;
+
+  input {
+    width: 60%;
+  }
+}
+
+.fav-container {
+  width: 25%;
+  display: flex;
+  justify-content: end;
 }
