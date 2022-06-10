@@ -32,15 +32,18 @@ console.log(WEATHER_API_KEY);
                     <i class="fa-solid fa-star"></i>
                   </div>
                   <div class="weather-info">
-                  <img id="icon" src="https://openweathermap.org/img/w/${data.weather[0].icon}.png"  alt="${data.weather[0].description}">
+                  <div class="weather-icon">
+                    <img id="icon" src="https://openweathermap.org/img/w/${data.weather[0].icon}.png"  alt="${data.weather[0].description}">
+                    <p>${data.weather[0].description}</p>
+                  </div>  
                   <div class="city-info-box">    
                       <div class="city-info">
                         <p>Temparature : ${data.main.temp} <i class="fa-solid fa-temperature-half"></i></p>
                         <p>Feels like: ${data.main.feels_like} <i class="fa-solid fa-temperature-half"></i> </p>
                       </div>   
                       <div class="city-info">
-                        <p>Temparature : ${data.main.temp}</p>
-                        <p>Feels like : ${data.main.feels_like}</p>
+                        <p>Max : ${data.main.temp_max} <i class="fa-solid fa-temperature-half"></i></p>
+                        <p>Min : ${data.main.temp_min} <i class="fa-solid fa-temperature-half"></i></p>
                       </div>
                       <div class="city-info">
                         <p>Wind Degree : ${data.wind.deg} </p>
@@ -55,5 +58,22 @@ console.log(WEATHER_API_KEY);
                 error
             })
         } 
+
+        
+        setInterval(change_background, 1000 * 60 * 60);
+
+          function change_background() {
+            var d = new Date();
+            var n = d.getHours();
+            console.log(n);
+            if (n == 23 || n < 7) {
+              document.body.className = "night";
+            } else {
+              document.body.className = "day";
+            }
+            console.log("test");
+          }
+
+          change_background();
 
       
