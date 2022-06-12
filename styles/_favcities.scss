@@ -3,6 +3,7 @@
   justify-content: end;
   border-bottom: 1px solid $secondary-color;
   padding: 1rem;
+  background: $primary-color;
 }
 
 .search-container {
@@ -19,6 +20,12 @@
   width: 25%;
   display: flex;
   justify-content: end;
+}
+
+.save-fav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 @media (max-width: $mobile-breakpoint) {

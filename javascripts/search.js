@@ -7,7 +7,7 @@ const domElements = {
   saveBtnEl: () => document.querySelector("#save-fav"),
 };
 
-function initAutoComplete() {
+function initAutoComplete(currWeatherFn) {
   const autocomplete = new google.maps.places.Autocomplete(
     domElements.searchEl(),
     {
@@ -18,11 +18,12 @@ function initAutoComplete() {
   autocomplete.addListener("place_changed", () => {
     const result = autocomplete.getPlace();
     domElements.selectEl().value = "";
-    renderResult({
+    const city = {
       name: result.name,
       lat: result.geometry.location.lat(),
       lng: result.geometry.location.lng(),
-    });
+    };
+    currWeatherFn(city.lat, city.lng);
   });
 }
 
@@ -48,40 +49,18 @@ function renderSelect(keepValue) {
   }
 }
 
-function bindSelectEvent() {
+function bindSelectEvent(currWeatherFn) {
   domElements.selectEl().addEventListener("change", (event) => {
     domElements.searchEl().value = "";
-    renderResult(JSON.parse(decodeURI(event.target.value)));
+    const city = JSON.parse(decodeURI(event.target.value));
+    currWeatherFn(city.lat, city.lng);
   });
 }
 
-function bindSaveFavEvent(city) {
-  domElements.saveBtnEl().addEventListener("click", () => {
-    if (favCitiesManager.hasCity(city)) {
-      favCitiesManager.removeCity(city);
-    } else {
-      favCitiesManager.addCity(city);
-    }
-    renderSelect();
-    renderResult(city);
-  });
-}
-
-function renderResult(city) {
-  const alreadyFav = favCitiesManager.hasCity(city);
-  domElements.resultEl().innerHTML = `
-    <h3>${city.name}</h3>
-    <p>Lat: ${city.lat}</p>
-    <p>Lng: ${city.lng}</p>
-    <button type="button" id="save-fav">
-      ${alreadyFav ? "Remove Fav" : "Fav"}
-    </button>
-  `;
-  bindSaveFavEvent(city);
-}
-
-window.addEventListener("load", () => {
-  initAutoComplete();
-  bindSelectEvent();
+function loadResultAndFavCities(currWeatherFn) {
+  initAutoComplete(currWeatherFn);
+  bindSelectEvent(currWeatherFn);
   renderSelect();
-});
+}
+
+export { loadResultAndFavCities };
