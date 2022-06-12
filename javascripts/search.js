@@ -7,7 +7,7 @@ const domElements = {
   saveBtnEl: () => document.querySelector("#save-fav"),
 };
 
-function initAutoComplete(currWeatherFn) {
+function initAutoComplete(currWeatherFn, fiveHourFn) {
   const autocomplete = new google.maps.places.Autocomplete(
     domElements.searchEl(),
     {
@@ -24,6 +24,7 @@ function initAutoComplete(currWeatherFn) {
       lng: result.geometry.location.lng(),
     };
     currWeatherFn(city.lat, city.lng);
+    fiveHourFn(city.lat, city.lng);
   });
 }
 
@@ -54,12 +55,13 @@ function bindSelectEvent(currWeatherFn) {
     domElements.searchEl().value = "";
     const city = JSON.parse(decodeURI(event.target.value));
     currWeatherFn(city.lat, city.lng);
+    fiveHourFn(city.lat, city.lng);
   });
 }
 
-function loadResultAndFavCities(currWeatherFn) {
-  initAutoComplete(currWeatherFn);
-  bindSelectEvent(currWeatherFn);
+function loadResultAndFavCities(currWeatherFn, fiveHourFn) {
+  initAutoComplete(currWeatherFn, fiveHourFn);
+  bindSelectEvent(currWeatherFn, fiveHourFn);
   renderSelect();
 }
 

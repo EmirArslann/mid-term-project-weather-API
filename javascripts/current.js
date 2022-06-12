@@ -1,14 +1,16 @@
 import WEATHER_API_KEY from "./api.js";
 import * as favCitiesManager from "./favCitiesManager.js";
 
-function getUserLocation() {
+function getUserLocation(loadFiveHourData) {
   const success = (pos) => {
     var crd = pos.coords;
     getData(crd.latitude, crd.longitude);
+    loadFiveHourData(crd.latitude, crd.longitude);
   };
 
   const error = () => {
     getData(49.246292, -123.116226);
+    loadFiveHourData(49.246292, -123.116226);
   };
 
   navigator.geolocation.getCurrentPosition(success, error);
