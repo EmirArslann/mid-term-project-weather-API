@@ -42,6 +42,9 @@ body {
   .hour {
     flex-direction: column;
     align-items: center;
+    &-box {
+      width: 15rem;
+    }
   }
 
 }
