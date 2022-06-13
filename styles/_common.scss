@@ -31,3 +31,9 @@ select {
 main {
   margin: 2rem 6rem 0;
 }
+
+@media (max-width: $mobile-breakpoint) {
+  main {
+    margin: 1rem;
+  }
+}
