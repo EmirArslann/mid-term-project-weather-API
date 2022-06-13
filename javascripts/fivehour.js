@@ -18,6 +18,8 @@ function loadFiveHourData(lat, lng) {
       }
       let fivedays = groupBy(data.list, "dt_txt");
 
+      document.querySelector(".daily").innerHTML = "";
+
       Object.entries(fivedays).forEach(([date, element]) => {
         let avetemp = 0;
         element.forEach((element) => {
