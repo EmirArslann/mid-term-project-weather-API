@@ -28,7 +28,7 @@ main {
   margin: 2rem 6rem 0;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 376px) {
   main {
     margin: 1rem;
   }
@@ -243,7 +243,7 @@ main {
   cursor: pointer;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 376px) {
   .navigator {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
