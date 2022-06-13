@@ -30,3 +30,17 @@ body {
     padding: 1rem;
   }
 }
+
+@media screen and (max-width: 376px) {
+  .daily {
+    flex-direction: column;
+  }
+  .days {
+    width: 375px;
+    
+  }
+  .hour {
+    flex-direction: column;
+  }
+
+}
