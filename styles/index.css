@@ -28,7 +28,7 @@ main {
   margin: 2rem 6rem 0;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 376px) {
   main {
     margin: 1rem;
   }
@@ -59,11 +59,11 @@ main {
 .clear-sky {
   background-image: url("/images/clear.jpg");
   background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .rain {
   background-image: url("/images/rain2.jpg");
-  background-size: cover;
 }
 
 .thunder {
@@ -82,10 +82,15 @@ main {
   background-size: cover;
 }
 
+.current-header {
+  margin: 0 10px;
+}
+
 #current-weather {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  border: 2px solid white;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -126,7 +131,11 @@ main {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  border: 2px solid white;
   width: 50%;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-left: 10px;
 }
 
 .weather-icon {
@@ -234,7 +243,7 @@ main {
   cursor: pointer;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 376px) {
   .navigator {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
