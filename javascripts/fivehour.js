@@ -18,6 +18,8 @@ function loadFiveHourData(lat, lng) {
       }
       let fivedays = groupBy(data.list, "dt_txt");
 
+      document.querySelector(".daily").innerHTML = "";
+
       Object.entries(fivedays).forEach(([date, element]) => {
         let avetemp = 0;
         element.forEach((element) => {
@@ -36,33 +38,14 @@ function loadFiveHourData(lat, lng) {
       let hourrange = document.querySelectorAll(".daily-box");
       hourrange.forEach((element) => {
         element.addEventListener("click", () => {
-          const name = element.getAttribute("name");
-          fivedays[name];
-          let thour = document.querySelector(".hour");
-          thour.innerHTML = "";
-          fivedays[name].forEach((element) => {
-            var iconurl =
-              "http://openweathermap.org/img/w/" +
-              element.weather[0].icon +
-              ".png";
-            thour.innerHTML += `
-          <div class="hour-box card">
-          <h3>${element.dt_txt.split(" ").pop()}</h3>
-          <p>${element.main.feels_like}°C</p>
-          <p>H:${element.main.temp_max}</p>
-          <p>L:${element.main.temp_min}</p>
-          <p>${element.weather[0].description}</p>
-          <img src="${iconurl}" alt="">
-          </div>
-          `;
-          });
-          console.log(fivedays[name]);
+          render3hoursRange(element, fivedays);
         });
       });
+      render3hoursRange(hourrange[0], fivedays);
     });
 }
 
-function render3hoursRange() {
+function render3hoursRange(element, fivedays) {
   const name = element.getAttribute("name");
   fivedays[name];
   let thour = document.querySelector(".hour");
