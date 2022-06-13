@@ -114,7 +114,7 @@ function loadData(data) {
         <i class="fa-${alreadyFav ? "solid" : "regular"} fa-star"></i>
       </button>
     </div>
-    <div class="weather-info">
+    <div class="weather-info card">
       <div class="weather-icon">
         <img id="icon" src="https://openweathermap.org/img/w/${
           data.weather[0].icon
