@@ -43,7 +43,8 @@ function change_background(data) {
     document.body.className = "clear-sky";
     return;
   }
-  if (data.weather[0].description === "rain") {
+  if (data.weather[0].description === "rain" || 
+      data.weather[0].description === "light rain") {
     document.body.className = "rain";
     return;
   }
