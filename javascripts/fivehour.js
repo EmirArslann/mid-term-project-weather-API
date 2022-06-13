@@ -28,7 +28,7 @@ function loadFiveHourData(lat, lng) {
         fdays.innerHTML += `
           <div class="daily-box card" name='${date}' >
           <h3>${date}</h3>
-          <p>${showave}</p>
+          <p>Average Temp:${showave.toFixed(2)}°C</p>
           </div>
           `;
         // console.log(fdays);
